@@ -31,7 +31,7 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = [
         'id',
         'customer__username',
-        'customer__email'
+        'customer__email',
         'customer__first_name',
         'customer__last_name'
     ]

@@ -23,7 +23,7 @@ class Brand(models.Model):
     name = models.CharField(max_length=255) # Nombre de la marca (ejemplo: "Pedigree")
     
     logo = models.ImageField(
-        upload_to='media/brands/logos/',
+        upload_to='brands/logos/',
         null=True,
         blank=True,
         verbose_name='Logo')
@@ -46,7 +46,7 @@ class Brand(models.Model):
 class Product(models.Model):
 
     name = models.CharField(max_length=255, verbose_name="Nombre")
-    image = models.ImageField(upload_to='media/products/images/', null=True, blank=True)
+    image = models.ImageField(upload_to='products/images/', null=True, blank=True)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField(verbose_name="Stock disponible")

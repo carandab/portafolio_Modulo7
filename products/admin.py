@@ -51,7 +51,7 @@ class ProductAdmin(admin.ModelAdmin):
             'fields': ('image',)
         }),
         ('Opciones', {
-            'fields': ('is_active', 'is_featured', 'weight')
+            'fields': ('is_active', 'is_featured')
         }),
         ('Fechas', {
             'fields': ('created_at', 'updated_at'),

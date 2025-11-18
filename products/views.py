@@ -51,6 +51,10 @@ def product_list(request):
 # Detalle del producto
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk, is_active=True)
+
+    ahorro = None
+    if product.sale_price:
+        ahorro = product.price - product.sale_price
     
     # Productos relacionados (misma categoría)
     related_products = None
@@ -62,7 +66,8 @@ def product_detail(request, pk):
     
     return render(request, 'products/product_detail.html', {
         'product': product,
-        'related_products': related_products
+        'related_products': related_products,
+        'ahorro': ahorro
     })
 
 # Crear nuevo producto

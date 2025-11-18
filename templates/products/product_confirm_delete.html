@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load price_filters %}
 
 {% block title %}GoWest | Eliminar Producto{% endblock %}
 
@@ -59,7 +60,7 @@
                                 {% endif %}
                             </div>
                             
-                            <p class="text-muted mb-1">Precio: <strong>${{ product.price }}</strong></p>
+                            <p class="text-muted mb-1">Precio: <strong>{{ product.price|precio_clp }}</strong></p>
                             <p class="text-muted">Stock: <strong>{{ product.stock }} unidades</strong></p>
                         </div>
                         

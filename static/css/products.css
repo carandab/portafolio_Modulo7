@@ -229,6 +229,36 @@
 }
 
 
+/*  Link Card de Producto  */
+.product-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.product-card-link:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-card-link:hover .product-card {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+/* Evitar que los botones internos cambien el cursor */
+.product-card .btn {
+    position: relative;
+    z-index: 10;
+}
+
+.product-actions {
+    z-index: 20;
+}
+
+
 
 /* Media Queries */
 @media (max-width: 768px) {

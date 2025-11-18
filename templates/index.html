@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load price_filters %}
 
 {% block title %} GoWest |  Todo para tu Mascota{% endblock %}
 
@@ -109,7 +110,7 @@
                     <div class="product-card">
 
                         <!-- Badge para productos -->
-                        {% if product.sale_price %}
+                        {% if product.sale_price|precio_clp %}
                         <span class="product-badge bg-danger">¡Oferta!</span>
                         {% elif product.is_featured %}
                         <span class="product-badge bg-success">Destacado</span>
@@ -132,10 +133,10 @@
                             <!-- Precios -->
                             <div class="product-price mb-3">
                                 {% if product.sale_price %}
-                                    <span class="text-muted text-decoration-line-through small">${{ product.price }}</span>
-                                    <span class="text-success fw-bold fs-5 ms-2">${{ product.sale_price }}</span>
+                                    <span class="text-muted text-decoration-line-through small">{{ product.price|precio_clp }}</span>
+                                    <span class="text-success fw-bold fs-5 ms-2">{{ product.sale_price|precio_clp }}</span>
                                 {% else %}
-                                    <span class="text-success fw-bold fs-5">${{ product.price }}</span>
+                                    <span class="text-success fw-bold fs-5">{{ product.price|precio_clp }}</span>
                                 {% endif %}
                             </div>
                             

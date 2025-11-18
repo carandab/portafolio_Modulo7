@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load price_filters %}
 
 {% block title %} GoWest | Finalizar Compra {% endblock %}
 
@@ -165,7 +166,7 @@
                                         <small class="text-muted">Cantidad: {{ item.quantity }}</small>
                                     </div>
                                     <div class="text-end">
-                                        <div class="fw-bold text-success">${{ item.subtotal }}</div>
+                                        <div class="fw-bold text-success">${{ item.subtotal|precio_clp }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -177,7 +178,7 @@
                         <!-- Totales -->
                         <div class="summary-row">
                             <span>Subtotal:</span>
-                            <span class="fw-bold">${{ total }}</span>
+                            <span class="fw-bold">${{ total|precio_clp }}</span>
                         </div>
                         
                         <div class="summary-row">
@@ -189,7 +190,7 @@
                         
                         <div class="summary-row total-row">
                             <span class="fw-bold">Total:</span>
-                            <span class="fw-bold text-success fs-4">${{ total }}</span>
+                            <span class="fw-bold text-success fs-4">${{ total|precio_clp }}</span>
                         </div>
                         
                         <!-- Garantías -->

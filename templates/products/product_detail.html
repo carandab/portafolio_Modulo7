@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load price_filters %}
 
 {% block title %} GoWest | {{ product.name }}{% endblock %}
 
@@ -84,15 +85,15 @@
                     <div class="product-detail-price mb-4">
                         {% if product.sale_price %}
                             <div class="d-flex align-items-center gap-3">
-                                <span class="original-price">${{ product.price }}</span>
-                                <span class="sale-price">${{ product.sale_price }}</span>
+                                <span class="original-price">{{ product.price|precio_clp }}</span>
+                                <span class="sale-price">{{ product.sale_price|precio_clp }}</span>
                                 <span class="badge bg-danger">
                                     -{% widthratio product.price product.sale_price 100 %}%
                                 </span>
                             </div>
-                            <small class="text-muted">Ahorra ${{ product.price|add:"-"|add:product.sale_price }}</small>
+                            <small class="text-muted">Ahorra {{ ahorro|precio_clp }}</small>
                         {% else %}
-                            <span class="current-price">${{ product.price }}</span>
+                            <span class="current-price">{{ product.price|precio_clp }}</span>
                         {% endif %}
                     </div>
                     
@@ -199,7 +200,7 @@
                     <div class="product-info p-3">
                         <h6 class="product-title">{{ related.name }}</h6>
                         <div class="product-price mb-2">
-                            <span class="text-success fw-bold">${{ related.price }}</span>
+                            <span class="text-success fw-bold">{{ related.price|precio_clp }}</span>
                         </div>
                         <a href="{% url 'products:detalle_producto' related.pk %}" class="btn btn-sm btn-outline-success w-100">
                             Ver Detalle

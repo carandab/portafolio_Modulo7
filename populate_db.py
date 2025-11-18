@@ -3,6 +3,9 @@ import django
 import random
 from decimal import Decimal
 
+""" 
+Script para poblar la base de datos con datos de prueba"""
+
 # Configurar Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'petshop.settings')
 django.setup()

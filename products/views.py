@@ -8,7 +8,16 @@ from .models import Product
 
 
 def index(request):
-    return render(request, 'index.html')
+    
+    # Obtener productos destacados (máximo 8)
+    featured_products = Product.objects.filter(
+        is_active=True,
+        is_featured=True
+    ).select_related('category', 'brand')[:8]
+    
+    return render(request, 'index.html', {
+        'featured_products': featured_products
+    })
 
 def is_staff_user(user):
     return user.is_staff
@@ -19,7 +28,42 @@ def is_staff_user(user):
 
 def product_list(request):
     products = Product.objects.filter(is_active=True)
-    return render(request, 'products/product_list.html', {'products': products})
+    # Obtener parámetro de sorting
+    sort = request.GET.get('sort', 'name')  # Por defecto ordenar por nombre
+    
+    # Aplicar ordenamiento
+    if sort == 'price_low':
+        products = products.order_by('price')
+    elif sort == 'price_high':
+        products = products.order_by('-price')
+    elif sort == 'name':
+        products = products.order_by('name')
+    elif sort == 'newest':
+        products = products.order_by('-created_at')
+    else:
+        products = products.order_by('name')
+    
+    return render(request, 'products/product_list.html', {
+        'products': products,
+        'current_sort': sort  # Pasar el ordenamiento actual al template
+    })
+
+# Detalle del producto
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk, is_active=True)
+    
+    # Productos relacionados (misma categoría)
+    related_products = None
+    if product.category:
+        related_products = Product.objects.filter(
+            category=product.category,
+            is_active=True
+        ).exclude(pk=product.pk)[:4]
+    
+    return render(request, 'products/product_detail.html', {
+        'product': product,
+        'related_products': related_products
+    })
 
 # Crear nuevo producto
 

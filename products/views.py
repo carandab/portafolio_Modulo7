@@ -178,7 +178,33 @@ def add_to_cart(request, pk):
     request.session['cart'] = cart
     messages.success(request, f'Producto "{product.name}" agregado al carrito.')
 
-    return redirect('products:product_list') 
+    return redirect('products:lista_productos') 
+
+# Agregar producto al carrito con cantidad especificada
+def add_to_cart_with_quantity(request, pk):
+    if request.method == 'POST':
+        product = get_object_or_404(Product, pk=pk)
+        cart = request.session.get('cart', {})
+        
+        quantity = int(request.POST.get('quantity', 1))
+        
+        # Validar que no exceda el stock
+        if quantity > product.stock:
+            messages.error(request, f'Solo hay {product.stock} unidades disponibles.')
+            return redirect('products:detalle_producto', pk=pk)
+        
+        # Si ya existe en el carrito, sumar la cantidad
+        if str(product.id) in cart:
+            cart[str(product.id)] += quantity
+        else:
+            cart[str(product.id)] = quantity
+        
+        request.session['cart'] = cart
+        messages.success(request, f'{quantity} unidad(es) de "{product.name}" agregadas al carrito.')
+        
+        return redirect('products:cart_view')
+    
+    return redirect('products:lista_productos')
 
 
 

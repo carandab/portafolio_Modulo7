@@ -88,7 +88,7 @@
                                 <span class="original-price">{{ product.price|precio_clp }}</span>
                                 <span class="sale-price">{{ product.sale_price|precio_clp }}</span>
                                 <span class="badge bg-danger">
-                                    -{% widthratio product.price product.sale_price 100 %}%
+                                    -{{ product.price|calcular_descuento:product.sale_price }}%
                                 </span>
                             </div>
                             <small class="text-muted">Ahorra {{ ahorro|precio_clp }}</small>
@@ -98,57 +98,78 @@
                     </div>
                     
                     <!-- Stock -->
-                    <div class="stock-info mb-4">
-                        {% if product.stock > 0 %}
-                            {% if product.stock < 5 %}
-                                <div class="alert alert-warning" role="alert">
-                                    <i class="fas fa-exclamation-triangle me-2"></i>
-                                    <strong>¡Últimas {{ product.stock }} unidades!</strong> No te quedes sin el tuyo.
-                                </div>
+                    <div class="stock-info-detail mb-3">
+                        <div class="stock-display">
+                            {% if product.stock > 0 %}
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <span class="fw-bold text-success">Disponible</span>
+                                <span class="text-muted">({{ product.stock }} en stock)</span>
                             {% else %}
-                                <div class="alert alert-success" role="alert">
-                                    <i class="fas fa-check-circle me-2"></i>
-                                    <strong>Disponible</strong> ({{ product.stock }} en stock)
-                                </div>
+                                <i class="fas fa-times-circle text-danger me-2"></i>
+                                <span class="fw-bold text-danger">Sin Stock</span>
                             {% endif %}
-                        {% else %}
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fas fa-times-circle me-2"></i>
-                                <strong>Producto Agotado</strong>
-                            </div>
-                        {% endif %}
+                        </div>
                     </div>
-                    
+
                     <!-- Descripción -->
                     <div class="product-description mb-4">
                         <h5 class="mb-3">Descripción</h5>
                         <p>{{ product.description|linebreaks }}</p>
                     </div>
                     
-                    <!-- Acciones -->
-                    <div class="product-actions mb-4">
-                        {% if product.stock > 0 %}
-                            <!-- Agregar al Carrito -->
-                            <a href="{% url 'products:add_to_cart' product.pk %}" class="btn btn-success btn-lg w-100 mb-2">
-                                <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
+                    <!-- Selector de Cantidad y Agregar al Carrito -->
+                    {% if product.stock > 0 %}
+                    <div class="quantity-selector mb-4">
+                        <form method="POST" action="{% url 'products:add_to_cart_with_quantity' product.pk %}" class="quantity-form-detail">
+                            {% csrf_token %}
+                            <div class="row g-2 align-items-center">
+                                <div class="col-12 col-md-4">
+                                    <label class="form-label mb-1 small text-muted">Cantidad:</label>
+                                    <div class="input-group">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="decrementQuantityDetail()">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" name="quantity" id="quantity-input" class="form-control text-center" value="1" min="1" max="{{ product.stock }}" readonly>
+                                        <button class="btn btn-outline-secondary" type="button" onclick="incrementQuantityDetail({{ product.stock }})">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <small class="text-muted d-block mt-1">Stock: {{ product.stock }}</small>
+                                </div>
+                            </div>
+                            <div class="row g-2 align-items-center">
+                                <label class="form-label mb-1 small text-muted d-none d-md-block">&nbsp;</label>
+                                <button type="submit" class="btn btn-success btn-lg w-100">
+                                    <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    {% if product.stock < 5 %}
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>¡Últimas unidades!</strong> No te quedes sin el tuyo.
+                    </div>
+                    {% endif %}
+                    {% else %}
+                    <div class="mb-4">
+                        <button class="btn btn-secondary btn-lg w-100" disabled>
+                            <i class="fas fa-times me-2"></i>No Disponible
+                        </button>
+                    </div>
+                    {% endif %}
+
+                    <!-- Botones Secundarios -->
+                    <div class="d-flex gap-2 mb-4">
+                        <a href="{% url 'products:lista_productos' %}" class="btn btn-outline-secondary flex-fill">
+                            <i class="fas fa-arrow-left me-2"></i>Volver
+                        </a>
+                        {% if user.is_staff %}
+                            <a href="{% url 'products:editar_producto' product.pk %}" class="btn btn-outline-primary">
+                                <i class="fas fa-edit"></i>
                             </a>
-                        {% else %}
-                            <button class="btn btn-secondary btn-lg w-100 mb-2" disabled>
-                                <i class="fas fa-times me-2"></i>No Disponible
-                            </button>
                         {% endif %}
-                        
-                        <!-- Botones Secundarios -->
-                        <div class="d-flex gap-2">
-                            <a href="{% url 'products:lista_productos' %}" class="btn btn-outline-secondary flex-fill">
-                                <i class="fas fa-arrow-left me-2"></i>Volver
-                            </a>
-                            {% if user.is_staff %}
-                                <a href="{% url 'products:editar_producto' product.pk %}" class="btn btn-outline-primary">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                            {% endif %}
-                        </div>
                     </div>
                     
                     <!-- Características -->

@@ -92,7 +92,7 @@ def checkout(request):
                 )
                 
                 # 6. Redirigir a detalle del pedido
-                return redirect('orders:order_detail', pk=order.id)
+                return redirect('orders:detalle_pedido', pk=order.id)
         
         # Manejo de errores
         except IntegrityError:

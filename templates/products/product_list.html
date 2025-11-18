@@ -88,10 +88,8 @@
                 {% if products %}
                 <div class="row g-4">
                     {% for product in products %}
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <a href="{% url 'products:detalle_producto' product.pk %}" class="product-card-link">
-                            <div class="product-card">
-                                
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="product-card" data-href="{% url 'products:detalle_producto' product.pk %}">
                                 <!-- Badges -->
                                 {% if product.sale_price %}
                                     <span class="product-badge bg-danger">¡Oferta!</span>
@@ -110,7 +108,7 @@
                                     </a>
                                 </div>
                                 {% endif %}   
-                                                             
+                                                            
                                 <!-- Imagen del Producto -->
                                 <div class="product-image">
                                     {% if product.image %}
@@ -147,7 +145,7 @@
                                             <span class="text-muted text-decoration-line-through small">{{ product.price|precio_clp }}</span>
                                             <span class="text-success fw-bold fs-5 ms-2">{{ product.sale_price|precio_clp }}</span>
                                             <span class="badge bg-danger ms-2">
-                                                -{% widthratio product.sale_price product.price 100 %}%
+                                                -{{ product.price|calcular_descuento:product.sale_price }}%
                                             </span>
                                         {% else %}
                                             <span class="text-success fw-bold fs-5">{{ product.price|precio_clp }}</span>
@@ -175,7 +173,7 @@
 
                                     <!-- Añadir al carrito -->
                                     {% if product.stock > 0 %}
-                                        <a href="{% url 'products:add_to_cart' product.pk %}" class="btn btn-success btn-sm w-100" onclick="event.stopPropagation(); event.preventDefault(); window.location.href='{% url 'products:add_to_cart' product.pk %}';">
+                                        <a href="{% url 'products:add_to_cart' product.pk %}" class="btn btn-success btn-sm w-100 add-to-cart-btn">
                                             <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
                                         </a>
                                     {% else %}
@@ -185,8 +183,7 @@
                                     {% endif %}
                                 </div>
                             </div>
-                        </a>
-                    </div>
+                        </div>
                     {% endfor %}
                 </div>
                 {% else %}

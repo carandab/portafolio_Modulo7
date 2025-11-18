@@ -107,7 +107,7 @@
             {% if featured_products %}
                 {% for product in featured_products %}
                 <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product-card">
+                    <div class="product-card" data-href="{% url 'products:detalle_producto' product.pk %}">
 
                         <!-- Badge para productos -->
                         {% if product.sale_price|precio_clp %}
@@ -153,7 +153,7 @@
                             
                             <!-- Agregar al carrito -->
                             {% if product.stock > 0 %}
-                                <a href="{% url 'products:add_to_cart' product.id %}" class="btn btn-success btn-sm w-100">
+                                <a href="{% url 'products:add_to_cart' product.id %}" class="btn btn-success btn-sm w-100 add-to-cart-btn">
                                     <i class="fas fa-cart-plus me-2"></i>Agregar al Carrito
                                 </a>
                             {% else %}

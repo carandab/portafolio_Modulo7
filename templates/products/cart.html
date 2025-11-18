@@ -65,7 +65,7 @@
                                         <small class="text-muted">{{ item.product.category.name }}</small>
                                     {% endif %}
                                     <div class="mt-2">
-                                        <span class="text-success fw-bold">{{ item.product.price }}</span>
+                                        <span class="text-success fw-bold">{{ item.product.price|precio_clp }}</span>
                                         <small class="text-muted">c/u</small>
                                     </div>
                                 </div>
@@ -89,7 +89,7 @@
                                 
                                 <!-- Subtotal & Sacar del carrito -->
                                 <div class="col-md-2 col-6 mt-3 mt-md-0 text-md-end">
-                                    <div class="fw-bold text-success mb-2">{{ item.subtotal }}</div>
+                                    <div class="fw-bold text-success mb-2">{{ item.subtotal|precio_clp }}</div>
                                     <a href="{% url 'products:remove_from_cart' item.product.pk %}" class="btn btn-sm btn-outline-danger">
                                         <i class="fas fa-trash"></i>
                                     </a>

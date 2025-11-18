@@ -89,10 +89,14 @@
                                         <i class="fas fa-cog"></i> Panel Admin
                                     </a></li>
                                 {% endif %}
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'users:logout' %}">
-                                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                                </a></li>
+                                    <li>
+                                        <form method="POST" action="{% url 'users:logout' %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="dropdown-item" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer;">
+                                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                                            </button>
+                                        </form>
+                                    </li>
                             </ul>
                         </div>
                     {% else %}

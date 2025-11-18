@@ -73,8 +73,20 @@ input[type="file"] {
 }
 
 input[type="checkbox"] {
-    width: auto;
+    width: 1.2rem;
+    height: 1.2rem;
     margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+.form-check-input {
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+}
+
+.form-check-label {
+    cursor: pointer;
 }
 
 /* Error Messages */

@@ -1,7 +1,21 @@
-
 $(document).ready(function() {
     
-    // Scroll suave entre secciones
+    // Hacer cards clickeables
+    $('.product-card').on('click', function(e) {
+        if (!$(e.target).closest('a, button').length) {
+            var url = $(this).data('href');
+            if (url) {
+                window.location.href = url;
+            }
+        }
+    });
+    
+    // Prevenir que botones activen el click de la card
+    $('.add-to-cart-btn').on('click', function(e) {
+        e.stopPropagation();
+    });
+    
+    // Scroll suave
     $('.btn[href^="#"]').on('click', function(e) {
         e.preventDefault();
         var target = $(this.getAttribute('href'));
@@ -12,17 +26,7 @@ $(document).ready(function() {
         }
     });
     
-    // Animacion de agregar al carrito
-    $('.btn-success').on('click', function(e) {
-        var button = $(this);
-        button.html('<i class="fas fa-check me-2"></i>Agregado!');
-        
-        setTimeout(function() {
-            button.html('<i class="fas fa-cart-plus me-2"></i>Agregar al Carrito');
-        }, 2000);
-    });
-    
-    // Cargar imagenes lentamente en seccion de productos
+    // Lazy loading de imágenes
     if ('IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
